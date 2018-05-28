@@ -1,0 +1,79 @@
+---
+title: "經濟部落客"
+output: html_document
+---
+```{r}
+library(readr)
+library(tidyverse)
+library(magrittr)
+library(lubridate)
+library(ggplot2)
+library(leaflet)
+
+rm(list=ls())
+
+a<-read.csv("FF0001A1Ac-2.csv",skip=4,header=F,nrows=35)
+is.na(a)
+a$V2
+b<-read.csv("新竹市歷年家庭消費支出之變動.csv",skip=3,header=F,nrows=35)
+
+c<-read.csv("新竹科學園區就業人數.csv")
+
+data1<-read.csv("新竹人口統計.csv")
+
+e1<-read.csv("新竹市歷年就業者之教育程度71_90.csv",skip=1,nrows=22)
+e2<-read.csv("新竹市歷年就業者之教育程度91_106.csv",skip=1,nrows=18)
+
+
+data1%<>%rename(y_m="年月",sex="性別",Number_of_households="戶數",region="區域別",population="人口數",inflow="遷入人數",outflow="遷出人數",birth_rate = "出生人數",mortality_rate="死亡人數")
+
+
+data1%>%filter(sex=="男女合計",-(y_m < 10700))->d
+data1%>%filter(sex=="男女合計",region=="新竹市",-(y_m < 10700))->d_1
+
+
+```
+#新竹科學園區所帶來的人口變遷
+
+新竹地區早期人口成長緩慢，自從政府政策的實施改變新竹社會經濟結構後，新竹人口成長率大幅提升，並與桃園及台中並列為三大成長快速的都會區。隨著科學園區及工業區的建立，為新竹市掀起人口結構變遷的颶風，如外來高知識青年被竹科吸引而增加新竹市就業率，進而使得人口結構青年畫、提高生育率等。 
+
+本章節主要利用歷年人口分布、教育程度、成長趨勢、生育率的變化來分析佐證。
+
+由上述原因使得新竹經濟成長大幅提升，其背後也伴隨著相關經濟議題，如可支配所得提高所帶來物價通膨、炒作房地產所導致當地房價比不斷攀升等。
+
+
+```{r}
+d_1%<>%mutate(growth_population=(inflow-outflow))
+d_1$y_m%<>%as.factor()
+#人口流入量(新竹市)
+d_1%>%
+  ggplot(aes(x=y_m,y=growth_population))+
+    geom_bar(stat = "identity")
+
+#人口流入量(新竹)
+d%>%filter(sex=="男女合計")%>%mutate(growth_population=(inflow-outflow))->d_2
+d_2$y_m%<>%as.factor()
+d_2%>%
+  ggplot(aes(x=y_m,y=growth_population,fill=region))+
+    geom_bar(stat = "identity")
+
+d%>%filter(sex=="男女合計")->d_3
+#
+
+d_3%>%group_by(region)%>%
+  ggplot(aes(x=region,y=population,fill=y_m))+
+  geom_bar(stat = "identity")
+
+#平均每戶消費支出(新竹市與全台灣比較)
+b%>% ggplot(aes(x=V1,y=V2))+
+  geom_line()+geom_line(data = a,aes(x=V1,y=V2),color="blue")
+
+
+
+```
+
+
+
+
+
+

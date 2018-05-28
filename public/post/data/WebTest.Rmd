@@ -1,0 +1,233 @@
+---
+title: "test"
+author: "Gary Liu"
+date: "2018/5/26"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F, cache = T, warning = F, message = F, error = F)
+library(ggplot2)
+theme_set(theme_bw() +
+  theme(text = element_text(family = "DFKaiShu-SB-Estd-BF"),
+        axis.text.x = element_text(angle = 90, size = 13),
+        axis.text.y = element_text(size = 13),
+        axis.title.x = element_text(size = 16),
+        axis.title.y = element_text(size = 16),
+        legend.text = element_text(size = 13),
+        plot.title = element_text(hjust = 0.5, size = 16),
+        plot.margin = unit(c(0.4,0.5,1.5,0.5),"cm")))
+```
+
+#Introduction
+####1. 人口密度
+```{r scraping}
+#爬蟲
+library(rvest)
+url <- "https://zh.wikipedia.org/wiki/臺灣行政區人口密度表"
+
+url %>% read_html() %>%
+  html_nodes(xpath = '//*[@id="mw-content-text"]/div/table[2]') %>%
+  html_table(fill=TRUE) %>%
+  as.data.frame(stringAsFactors = F)-> dense
+```
+
+```{r clean for density}
+library(dplyr)
+library(magrittr)
+#clean ','
+dense$人口密度 <- gsub(pattern = ',', replacement = '', x = dense$人口密度)
+#資料格式
+dense$人口密度 <- as.numeric(dense$人口密度)
+dense$名稱 <- factor(dense$名稱, levels = unique(dense$名稱))
+
+dense$類別 <- factor(dense$類別, levels = unique(dense$類別))
+
+```
+
+```{r barplot for density, fig.align='center'}
+library(plotly)
+library(shiny)
+dense %>%
+ggplot(data=., aes(x = 名稱, y = 人口密度, fill = 類別)) +
+    geom_bar(stat="identity") +
+    labs(x = '', fill = '') -> g
+g1 <- ggplotly(g)
+div(subplot(g1, margin = 0.1), align = "center")
+```
+
+---
+###面臨問題
+\\
+本文強調新竹科學園區的發展，對於新竹的產業現況和人文發展，是個相當重要的存在。然而，人類歷史上存在著一個一成不變的教訓：過度開發造成環境問題。
+####- 水污染
+    過去發生香山綠牡蠣污染事件
+[新竹媽媽救水源](http://ourisland.pts.org.tw/content/新竹媽媽救水源#sthash.f70prupV.dpbs)
+[透明足跡](https://thaubing.gcaa.org.tw/envmap?qt-front_content=0#{"latlng":[24.292754,120.653797],"zoom":10,"basemap":"satellite","factory":{"name":"","enabled":1,"type":"All","poltype":"All","fine":1,"realtime":1,"overhead":0},"airquality":{"enabled":1}})
+
+
+####fine
+```{r}
+library("tidyr")
+fine <- read.csv("fine.csv", header = T, sep = ",", na.strings = "－",
+                 stringsAsFactors = F)
+colnames(fine) <- c('項目','行政區','年份','單位','次數')
+#NA = 0
+fine$次數 %<>%
+  replace_na('0')
+#格式
+fine$次數 <- as.numeric(fine$次數)
+#重複
+fine %<>% subset(!duplicated(.))
+
+#plot
+fine %>%
+  filter(項目 == "水污染罰鍰次數/總計",
+         行政區 == "新竹市" |行政區 == "新竹縣") %>%
+  ggplot(data = .) +
+  geom_line(aes(x = 年份, y = 次數, col = 行政區)) +
+  labs(y = "次數", x = "年份", title = "裁罰次數") -> f1
+#ggplotly(f1)
+f1
+#div(ggplotly(f1), align = "center")
+
+```
+
+```{r}
+library(scales)
+m <- list(
+  l = 100,
+  r = 50,
+  b = 100,
+  t = 100,
+  pad = 4
+)
+fine %>%
+  filter(行政區 == "新竹縣" , 年份 == 105, 項目 != "水污染罰鍰次數/總計") %>%
+  plot_ly(., labels = ~ 項目, values = ~ 次數, type = 'pie') %>%
+  layout(title = '新竹縣',
+         xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+         yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+         autosize = T, width = 500, height = 500, margin = m) -> f2
+f2
+
+```
+
+---
+
+####Station
+```{r map, fig.align="center"}
+library(stringr)
+station <- read.csv(url("http://opendata.hccg.gov.tw/dataset/8ff05468-050b-4f85-be1f-7e603b90b3ad/resource/ef111755-036f-42f0-b49a-f619b929dd90/download/20160216163045861.csv"), header = T, sep = ",")
+#write.csv(station, file = "station.csv")
+station_lon_lat <- read.csv("station_lon.csv", sep = ",", header = T,
+                            stringsAsFactors = F)
+station$lon <- as.numeric(str_extract(station_lon_lat$lon.lat, "[0-9]+.[0-9]+"))
+station$lat <- as.numeric(str_extract(station_lon_lat$lon.lat, "[0-9]+.[0-9]+$"))
+
+library(ggmap)
+map <- get_map(location = 'hsinchu', zoom = 12)
+ggmap(map) + geom_point(aes(x = lon, y = lat), size = 2.5, col = "red",
+                        alpha = 0.8, data = station)
+
+```
+
+####Pollution
+```{r 104}
+pollution.104 <- read.csv(url("http://opendata.hccg.gov.tw/dataset/a93c1910-5a43-41fe-be35-3c100ae6b116/resource/9ee5eec3-344f-4240-a69f-7f5226222ed9/download/20170706143941690.csv"), header = T, sep = ",", stringsAsFactors = F)
+
+pollution.104$採樣日期YYYY.MM.DD %>%
+  str_extract(., "[0-9]{4}/[0-9]+") %>%
+  str_extract(., "[0-9]+$") -> pollution.104$month
+
+pollution.104$採樣日期YYYY.MM.DD %>%
+  str_extract(., "[0-9]{4}/[0-9]+") %>%
+  str_extract(., "^[0-9]+") -> pollution.104$year
+```
+
+```{r 105}
+pollution.105 <- read.csv(url("http://opendata.hccg.gov.tw/dataset/a93c1910-5a43-41fe-be35-3c100ae6b116/resource/a9fa076e-8496-4042-a295-4eaed4229efd/download/20170706144232221.csv"), header = T, sep = ",", stringsAsFactors = F)
+
+pollution.105$採樣日期YYYY.MM.DD %>%
+  str_extract(., "[0-9]{4}/[0-9]+") %>%
+  str_extract(., "[0-9]+$") -> pollution.105$month
+
+pollution.105$採樣日期YYYY.MM.DD %>%
+  str_extract(., "[0-9]{4}/[0-9]+") %>%
+  str_extract(., "^[0-9]+") -> pollution.105$year
+```
+
+```{r combine, fig.align="center"}
+library(tidyr)
+library(reshape2)
+pollution <- rbind(pollution.104, pollution.105)
+
+pollution.func <- function(pollution, main){
+pollution <- pollution[, -c(6:7, 21:51)]
+
+pollution[, 14:18] <- lapply(14:18, function(x){
+  pollution[, x] %>%
+  gsub(pattern = "\\{", replacement = "", x =  .) %>%
+  gsub(pattern = "\\}", replacement = "", x =  .) 
+})
+
+colnames(pollution)[4:18] <- lapply(4:18, function(x){
+  str_extract(colnames(pollution)[x], "[\u4e00-\u9fa5]+")
+})
+colnames(pollution)[9] <- "PH值"
+
+pollution$採樣日期 <- paste0(pollution$year, "-", pollution$month, "-", "01")
+pollution$採樣日期 <- as.POSIXct(pollution$採樣日期, format = "%Y-%m-%d")
+pollution <- pollution[, -c(5,19,20)]
+
+pollution <- pollution[, c(1, 5:7, 12)]
+
+#Tidy data
+pollution %<>%
+  mutate(., 溶氧量標準 = ifelse(溶氧量 >= 6.5, "0", 
+                              ifelse(溶氧量 >= 4.6, "1",
+                                        ifelse(溶氧量 >= 2, "2", "3")))) %>%
+  mutate(., 生化需氧量標準 = ifelse(生化需氧量 <= 3, "0", 
+                              ifelse(生化需氧量 <=  4.9, "1",
+                                        ifelse(生化需氧量 <= 15, "2", "3")))) %>%
+  mutate(., 懸浮固體標準 = ifelse(懸浮固體 <= 20, "0", 
+                              ifelse(懸浮固體 <=  49.9, "1",
+                                        ifelse(懸浮固體 <= 100, "2", "3")))) %>%
+  mutate(., 氨氮標準 = ifelse(氨氮 <= 0.5, "0", 
+                              ifelse(氨氮 <=  0.99, "1",
+                                        ifelse(氨氮 <= 3, "2", "3"))))
+
+
+prop.func <- function(x){
+  prop.table(table(pollution$河川名稱, pollution[, (5+x)]), margin = 1) %>%
+  data.frame(., 污染指標 = x) 
+}
+
+templist <- lapply(1:4, prop.func) 
+pollution.prop <- rbind(templist[[1]], templist[[2]],
+                        templist[[3]], templist[[4]])
+pollution.prop$污染指標 <- factor(pollution.prop$污染指標)
+colnames(pollution.prop)[1:2] <- c("河川名稱", "污染等級") 
+levels(pollution.prop$污染指標) <- c('溶氧量', '生化需氧量',
+                                         '懸浮固體', '氨氮')
+
+ggplot(data = pollution.prop, aes(x = 河川名稱, fill = 污染等級,
+                                  order = 污染等級)) + 
+    geom_bar(aes(y=Freq), position="stack", stat="identity") + 
+    labs(y = "比例", title = main) +
+    facet_grid(. ~ 污染指標, space="free") + 
+    coord_flip() -> po1
+return(po1)
+}
+
+# pollution.func(pollution.104, '104')
+# pollution.func(pollution.105, '105')
+#pollution.func(pollution, '104~105年')
+pollution.func(pollution, '104~105年')
+
+
+
+```
+
