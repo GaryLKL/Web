@@ -1,20 +1,50 @@
 ---
-title: 初探新竹
+title: 問題探討
 author: UpToYou
-date: '2018-05-25'
+date: '2018-05-20'
 slug: ''
 categories: []
 tags: []
+output:
+  blogdown::html_page:
+    toc: true
 ---
 
+<script src="/rmarkdown-libs/htmlwidgets/htmlwidgets.js"></script>
+<script src="/rmarkdown-libs/plotly-binding/plotly.js"></script>
+<script src="/rmarkdown-libs/typedarray/typedarray.min.js"></script>
+<script src="/rmarkdown-libs/jquery/jquery.min.js"></script>
+<link href="/rmarkdown-libs/crosstalk/css/crosstalk.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/crosstalk/js/crosstalk.min.js"></script>
+<link href="/rmarkdown-libs/plotlyjs/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/plotlyjs/plotly-latest.min.js"></script>
 
+<div id="TOC">
+<ul>
+<li><a>水污染</a></li>
+</ul>
+</div>
 
-<p>　　新竹市為北台灣的著名古城，從清朝時期至今一直是政經重地，擁有國定古蹟5處、市定古蹟26處、及歷史建築11處，較有名的建築如東門城、城隍廟、火車站等，都成為新竹著名觀光地標。<br />
+<div class="section level2">
+<h2>水污染</h2>
+<p>　　新竹科學園區的發展，對於新竹的產業現況和人文發展，是個相當重要的存在。然而，人類歷史上存在著一個一成不變的教訓：過度開發造成環境問題。<br />
 <br />
-　　目前新竹市主要的商圈包括站前、東門圓環及護城河兩側，晚上時東門圓環經常有藝文表演供民眾觀賞，而護城河兩旁為新竹市最優美片段，情侶約會首選。另外知名地標城隍廟也有眾多閩南菜及客家菜品嚐，是新竹道地美食聚集地；Big City遠東巨城購物中心是目前台灣前八大購物中心，去年Facebook打卡量甚至是台灣僅次於桃園機場的地標。<br />
+　　廢水污染一直是相當嚴重的議題，污染來源除了科學園區之外，甚至來自更上游的工業區。從早期的香山綠牡蠣污染事件、寶山大崎村缺乏乾淨自來水園，至近期竹北東華龍工業區排放「紅水」污染，此問題是否該更加受到政府重視？<br />
 <br />
-　　人口組成方面，以閩南人為主體，大約占據69％，而客家人其次大約占23.1％，由於客家人口數眾多，已被列為台灣客家文化重點發展區之一。<br />
+　　如表 1，新竹縣市的水污染源稽查罰金排名為第八和第九名，它們與彰化縣、屏東縣可能都會遭遇一個問題：稽查人員數不足以即時稽查各處的污染排放。至於這種外部成本內部化的懲罰機制，也可能會因罰金無關痛癢，而被企業、工廠給忽略。<br />
 <br />
-　　教育方面，新竹市為台灣重點教育中心之一，目前有五所大專院校，知名的有交通大學及清華大學，是中華民國教育部頂尖大學計畫重點發展大學，也因此吸引大量人才。<br />
-<br />
-　　當然談到新竹市就不得不提新竹科學工業園區，其佔地橫跨新竹縣市，規模之龐大為新竹帶來了繁榮，從人口結構到物價及區域發展都有巨量的影響，也使新竹市有著『台灣矽谷』之稱，本網站將針對竹科對新竹帶來的各方面影響深入分析及探討。</p>
+　　在這個資訊爆炸的時代，我們可以透過即時公開資料來幫助政府監督這些造成環境污染的廠商，<a href="https://thaubing.gcaa.org.tw/about">透明足跡</a> 提供了通報的管道，而且可以直接在網頁上查詢各企業的違規、超標紀錄。</p>
+<div class="figure">
+<img src="problem_data/%E8%A1%A81.png" alt="表 1" />
+<p class="caption">表 1</p>
+</div>
+<p><br />
+　　從101年至105年間之新竹市、新竹縣的水汙染裁罰次數(見圖 1)，可以看出在102年以前，對於新竹地區的河川、溝渠等水汙染的問題，並沒有受到新竹地方政府的重視；102年至103年間，新竹縣政府所糾舉的水汙染案件幾乎是前一期的1.5倍，104年新竹縣政府的裁罰數更是大幅度的攀升至175件，呼應於102年前，我們對於政府未重視水汙染問題的推論，因為汙染並非突然發生，而是未依規定處理汙水之廠商長期的違法行為之結果。</p>
+<p><div align="center">
+<div id="c1993f833ce4" style="width:100%;height:400px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="c1993f833ce4">{"x":{"data":[{"x":[101,102,103,104,105],"y":[50,51,56,69,68],"text":["年份: 101<br />次數:  50<br />行政區: 新竹市","年份: 102<br />次數:  51<br />行政區: 新竹市","年份: 103<br />次數:  56<br />行政區: 新竹市","年份: 104<br />次數:  69<br />行政區: 新竹市","年份: 105<br />次數:  68<br />行政區: 新竹市"],"type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(248,118,109,1)","dash":"solid"},"hoveron":"points","name":"新竹市","legendgroup":"新竹市","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[101,102,103,104,105],"y":[53,58,103,171,120],"text":["年份: 101<br />次數:  53<br />行政區: 新竹縣","年份: 102<br />次數:  58<br />行政區: 新竹縣","年份: 103<br />次數: 103<br />行政區: 新竹縣","年份: 104<br />次數: 171<br />行政區: 新竹縣","年份: 105<br />次數: 120<br />行政區: 新竹縣"],"type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(0,191,196,1)","dash":"solid"},"hoveron":"points","name":"新竹縣","legendgroup":"新竹縣","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":52.3717424487568,"r":18.8976377952756,"b":107.502377893921,"l":69.7071023033702},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"DFKaiShu-SB-Estd-BF","size":14.6118721461187},"title":"裁罰次數","titlefont":{"color":"rgba(0,0,0,1)","family":"DFKaiShu-SB-Estd-BF","size":21.2536322125363},"xaxis":{"domain":[0,1],"type":"linear","autorange":false,"tickmode":"array","range":[100.8,105.2],"ticktext":["101","102","103","104","105"],"tickvals":[101,102,103,104,105],"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"DFKaiShu-SB-Estd-BF","size":17.2685761726858},"tickangle":-90,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":"年份<br /> 圖 1","titlefont":{"color":"rgba(0,0,0,1)","family":"DFKaiShu-SB-Estd-BF","size":21.2536322125363},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"type":"linear","autorange":false,"tickmode":"array","range":[43.95,177.05],"ticktext":["50","75","100","125","150","175"],"tickvals":[50,75,100,125,150,175],"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"DFKaiShu-SB-Estd-BF","size":17.2685761726858},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":"次數","titlefont":{"color":"rgba(0,0,0,1)","family":"DFKaiShu-SB-Estd-BF","size":21.2536322125363},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":"transparent","line":{"color":"rgba(51,51,51,1)","width":0.66417600664176,"linetype":"solid"},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"DFKaiShu-SB-Estd-BF","size":17.2685761726858},"y":0.913385826771654},"annotations":[{"text":"行政區","x":1.02,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(0,0,0,1)","family":"DFKaiShu-SB-Estd-BF","size":14.6118721461187},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"left","yanchor":"bottom","legendTitle":true}],"hovermode":"closest"},"source":"A","attrs":{"c19955649928":{"x":{},"y":{},"colour":{},"type":"ggplotly"}},"cur_data":"c19955649928","visdat":{"c19955649928":["function (y) ","x"]},"config":{"modeBarButtonsToAdd":[{"name":"Collaborate","icon":{"width":1000,"ascent":500,"descent":-50,"path":"M487 375c7-10 9-23 5-36l-79-259c-3-12-11-23-22-31-11-8-22-12-35-12l-263 0c-15 0-29 5-43 15-13 10-23 23-28 37-5 13-5 25-1 37 0 0 0 3 1 7 1 5 1 8 1 11 0 2 0 4-1 6 0 3-1 5-1 6 1 2 2 4 3 6 1 2 2 4 4 6 2 3 4 5 5 7 5 7 9 16 13 26 4 10 7 19 9 26 0 2 0 5 0 9-1 4-1 6 0 8 0 2 2 5 4 8 3 3 5 5 5 7 4 6 8 15 12 26 4 11 7 19 7 26 1 1 0 4 0 9-1 4-1 7 0 8 1 2 3 5 6 8 4 4 6 6 6 7 4 5 8 13 13 24 4 11 7 20 7 28 1 1 0 4 0 7-1 3-1 6-1 7 0 2 1 4 3 6 1 1 3 4 5 6 2 3 3 5 5 6 1 2 3 5 4 9 2 3 3 7 5 10 1 3 2 6 4 10 2 4 4 7 6 9 2 3 4 5 7 7 3 2 7 3 11 3 3 0 8 0 13-1l0-1c7 2 12 2 14 2l218 0c14 0 25-5 32-16 8-10 10-23 6-37l-79-259c-7-22-13-37-20-43-7-7-19-10-37-10l-248 0c-5 0-9-2-11-5-2-3-2-7 0-12 4-13 18-20 41-20l264 0c5 0 10 2 16 5 5 3 8 6 10 11l85 282c2 5 2 10 2 17 7-3 13-7 17-13z m-304 0c-1-3-1-5 0-7 1-1 3-2 6-2l174 0c2 0 4 1 7 2 2 2 4 4 5 7l6 18c0 3 0 5-1 7-1 1-3 2-6 2l-173 0c-3 0-5-1-8-2-2-2-4-4-4-7z m-24-73c-1-3-1-5 0-7 2-2 3-2 6-2l174 0c2 0 5 0 7 2 3 2 4 4 5 7l6 18c1 2 0 5-1 6-1 2-3 3-5 3l-174 0c-3 0-5-1-7-3-3-1-4-4-5-6z"},"click":"function(gd) { \n        // is this being viewed in RStudio?\n        if (location.search == '?viewer_pane=1') {\n          alert('To learn about plotly for collaboration, visit:\\n https://cpsievert.github.io/plotly_book/plot-ly-for-collaboration.html');\n        } else {\n          window.open('https://cpsievert.github.io/plotly_book/plot-ly-for-collaboration.html', '_blank');\n        }\n      }"}],"cloud":false},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1}},"base_url":"https://plot.ly"},"evals":["config.modeBarButtonsToAdd.0.click"],"jsHooks":{"render":[{"code":"function(el, x) { var ctConfig = crosstalk.var('plotlyCrosstalkOpts').set({\"on\":\"plotly_click\",\"persistent\":false,\"dynamic\":false,\"selectize\":false,\"opacityDim\":0.2,\"selected\":{\"opacity\":1}}); }","data":null}]}}</script>
+</div><br />
+</p>
+<p>　　從新竹地區的四河川各項汙染指標觀測紀錄(見圖 2)，其中的四項綜合性指標(溶氧量、生化需氧量、懸浮固體、氨氣)是根據行政院環境保護署的全國環境水質監測之河川污染指數(River Pollution Index)的評分方式，再根據新竹四河川(鹽港溪、頭前溪、三姓溪、客雅溪)的104、105兩年度之水質監測數據，推得的可能汙染等級(紫為最嚴重，等級3)。綜觀兩年度，三姓溪與客雅溪明顯有較嚴重的汙染指數，兩者於生化需氧量與氨氣含量皆有較高的等級3比例值，有很高的機率會出現河川優氧化現象，這是新竹地方政府應需審慎處理的課題。</p>
+<p><img src="/post/2018-05-20-_files/figure-html/combine-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>

@@ -1,9 +1,10 @@
 ---
 title: 台灣矽谷-新竹科學園區
 author: UpToYou
-date: '2018-05-24'
-categories: ["Hsinchu"]
-tags: ["R Markdown", "Hsinchu", "History"]
+date: '2018-05-22'
+tags:
+  - Hsinchu
+  - R Markdown
 ---
 
 ```{r setup, include=FALSE}
