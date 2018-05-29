@@ -1,7 +1,7 @@
 theme = "hugo-paper"
 baseURL = "/"
 languageCode = "en-us"
-title = "My New Hugo Site"
+title = "Up to You"
 
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 
