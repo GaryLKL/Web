@@ -2,6 +2,6 @@ theme = "hugo-paper"
 baseURL = "/"
 languageCode = "en-us"
 title = "Up to You"
-
+relativeurls = true
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 

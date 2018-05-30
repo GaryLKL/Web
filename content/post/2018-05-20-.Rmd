@@ -94,13 +94,15 @@ colnames(fine.total)[c(1,2)] <- c('縣市', '污染罰金(千元)')
 tb <- full_join(fine.total, supervise.total)[-c(23:26),]
 #knitr::kable(tb[1:10,],caption = '表 1: 2017年水污染源稽查罰款金額(千元) 及稽查人員數')
 ```
-![表 1](./problem_data/表1.png)
 
+![](./problem_data/表1.png)
+<img src="/post/2018-03-07-blogdown-insert-image-addin_files/screenshot.png" alt="final image" width="400"/>
 \
 
-　　從101年至105年間之新竹市、新竹縣的水汙染裁罰次數(見圖 1)，可以看出在102年以前，對於新竹地區的河川、溝渠等水汙染的問題，並沒有受到新竹地方政府的重視；102年至103年間，新竹縣政府所糾舉的水汙染案件幾乎是前一期的1.5倍，104年新竹縣政府的裁罰數更是大幅度的攀升至175件，呼應於102年前，我們對於政府未重視水汙染問題的推論，因為汙染並非突然發生，而是未依規定處理汙水之廠商長期的違法行為之結果。
+　　從101年至105年間之新竹市、新竹縣的水汙染裁罰次數(見圖 1)，可以看出在102年以前，對於新竹地區的河川、溝渠等水汙染的問題，並沒有受到新竹地方政府的重視；102年至103年間，新竹縣政府所糾舉的水汙染案件幾乎是前一期的1.5倍，104年新竹縣政府的裁罰數更是大幅度的攀升至175件，呼應於102年前，我們對於政府未重視水汙染問題的推論，因為汙染並非突然發生，而是未依規定處理汙水之廠商長期的違法行為之結果。  
+（**若無顯示圖片，請重新整理**）
 
-```{r }
+```{r fig.align="center"}
 library(tidyr)
 library(plotly)
 library(ggplot2)
@@ -124,7 +126,7 @@ fine.freq %>%
   geom_line(aes(x = 年份, y = 次數, col = 行政區)) +
   labs(y = "次數", x = "年份\n 圖 1", title = "裁罰次數") -> f1
 
-div(ggplotly(f1), align = "center")
+ggplotly(f1)
 #div(ggplotly(f1), align = "center")
 
 ```
